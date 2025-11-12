@@ -1,7 +1,4 @@
 trigger: none
-# - feature/*
-# - main
-
 pool: my agent pool
 
 stages: 
@@ -17,8 +14,6 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
-            backendServiceArm: 'azure-ado-sc'
             backendAzureRmStorageAccountName: 'pipelinestorage321'
             backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: 'terraform.tfstate'
+            backendAzureRmKey: '.tfstate'
