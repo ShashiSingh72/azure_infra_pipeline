@@ -1,21 +1,17 @@
 trigger: none
 pool: my agent pool
 
-stages: 
-  - stage: terraformbuild
-    jobs:
-      - job: buildjob
-        steps:
-        - task: TerraformInstaller@1
-          inputs:
-            terraformVersion: 'latest'
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
 
-        - task: TerraformTask@5
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
-            backendServiceArm: 'azure-ado-sc'
-            backendAzureRmStorageAccountName: 'pipelinestorage321'
-            backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: '.tfstate'
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+    backendServiceArm: 'azure-ado-sc'
+    backendAzureRmStorageAccountName: 'pipelinestorage321'
+    backendAzureRmContainerName: 'pipelinecontainer'
+    backendAzureRmKey: '.tfstate'
