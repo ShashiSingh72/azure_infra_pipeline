@@ -5,9 +5,9 @@ trigger: none
 pool: my agent pool
 
 stages: 
-  - stage: 
+  - stage: terraformbuild
     jobs:
-      - job: 
+      - job: buildjob
         steps:
         - task: TerraformInstaller@1
           inputs:
