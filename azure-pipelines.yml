@@ -25,3 +25,12 @@ stages:
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
             backendAzureRmKey: 'tfstate'
+
+      - job: manualvalidation
+        pool: server
+        steps:
+        - task: ManualValidation@1
+          displayName: manulvalidation
+          inputs:
+            notifyUsers: 'shashisingh223344@gmail.com'
+            pool: server 
