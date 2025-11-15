@@ -1,4 +1,25 @@
-trigger: none
-# -  feature/*
-# -  main
+trigger: 
+-  feature/*
+-  main
+
 pool: my agent pool
+
+stages:
+  - stage: initinstall
+    jobs:
+      - job: 
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendServiceArm: 'azure-ado-sc'
+            backendAzureRmResourceGroupName: 'pipeline_rg'
+            backendAzureRmStorageAccountName: 'pipelinestg01'
+            backendAzureRmContainerName: 'pipelinecontainer'
+            backendAzureRmKey: 'tfstate'
