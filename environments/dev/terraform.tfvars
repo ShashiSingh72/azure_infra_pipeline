@@ -214,3 +214,27 @@ bastionhosts = {
     ]
   }
 }
+
+mssql_servers = {
+  "mssql_server1" = {
+    sql_server_name              = "dev-mssql-server2"
+    resource_group_name          = "dev-rg11"
+    location                     = "West US"
+    administrator_login          = "sqladminuser"
+    administrator_login_password = "Password@12345"
+    version                      = "12.0"
+  }
+}
+
+mssql_database = {
+  "sql_database1" = {
+    mssql_database_name = "dev-sql-database"
+    collation           = "SQL_Latin1_General_CP1_CI_AS"
+    license_type        = "LicenseIncluded"
+    max_size_gb         = "2"
+    sql_server_name     = "dev-mssql-server2"
+    sku_name            = "S0"
+    enclave_type        = "VBS"
+    resource_group_name = "dev-rg11"
+  }
+}

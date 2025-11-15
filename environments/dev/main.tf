@@ -52,8 +52,20 @@ module "bassubnet" {
   
 }
 
-module "bastionhost" {
-  depends_on = [module.rg, module.pip, module.bassubnet]
-  source     = "../../modules/azure_bastion"
-  bastionhosts = var.bastionhosts 
+# module "bastionhost" {
+#   depends_on = [module.rg, module.pip, module.bassubnet]
+#   source     = "../../modules/azure_bastion"
+#   bastionhosts = var.bastionhosts 
+# }
+
+module "mssql_server" {
+  depends_on = [module.rg]
+  source     = "../../modules/azure_mssql_server"
+  mssql_servers = var.mssql_servers 
+}
+
+module "sql_database" {
+  depends_on = [ module.rg , module.mssql_server ]
+source = "../../modules/azurerm_mssql_database"
+mssql_database = var.mssql_database
 }
