@@ -7,13 +7,15 @@ pool: my agent pool
 stages:
   - stage: initinstall
     jobs:
-      - job: 
+      - job: terraforminstallinit
         steps:
         - task: TerraformInstaller@1
+          displayName: terraforminstall
           inputs:
             terraformVersion: 'latest'
 
         - task: TerraformTask@5
+          displayName: terraforminit
           inputs:
             provider: 'azurerm'
             command: 'init'
