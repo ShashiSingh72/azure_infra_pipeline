@@ -5,34 +5,34 @@ trigger:
 pool: my agent pool
 
 stages:
-  # - stage: initplan
-  #   displayName: initplan
-  #   jobs:
-  #     - job: terraforminitplan
-  #       steps:
-  #       - task: TerraformInstaller@1
-  #         displayName: terraforminstall
-  #         inputs:
-  #           terraformVersion: 'latest'
+  - stage: initplan
+    displayName: initplan
+    jobs:
+      - job: terraforminitplan
+        steps:
+        - task: TerraformInstaller@1
+          displayName: terraforminstall
+          inputs:
+            terraformVersion: 'latest'
 
-  #       - task: TerraformTask@5
-  #         displayName: terraforminit
-  #         inputs:
-  #           provider: 'azurerm'
-  #           command: 'init'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-  #           backendServiceArm: 'azure-ado-sc'
-  #           backendAzureRmResourceGroupName: 'pipeline_rg'
-  #           backendAzureRmStorageAccountName: 'pipelinestg01'
-  #           backendAzureRmContainerName: 'pipelinecontainer'
-  #           backendAzureRmKey: 'tfstate'
-  #       - task: TerraformTask@5
-  #         displayName: terraformplan
-  #         inputs:
-  #           provider: 'azurerm'
-  #           command: 'plan'
-  #           workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-  #           environmentServiceNameAzureRM: 'azure-ado-sc'
+        - task: TerraformTask@5
+          displayName: terraforminit
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendServiceArm: 'azure-ado-sc'
+            backendAzureRmResourceGroupName: 'pipeline_rg'
+            backendAzureRmStorageAccountName: 'pipelinestg01'
+            backendAzureRmContainerName: 'pipelinecontainer'
+            backendAzureRmKey: 'tfstate'
+        - task: TerraformTask@5
+          displayName: terraformplan
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            environmentServiceNameAzureRM: 'azure-ado-sc'
 
 
   - stage: terraformscan
@@ -43,6 +43,16 @@ stages:
         - task: tfsec@1
           inputs:
             version: 'v1.26.0'
+
+  - stage: manualvalidation
+    jobs: 
+      - job: manualvalidation
+        pool: server
+        steps:
+        - task: ManualValidation@1
+          displayName: manulvalidation
+          inputs:
+            notifyUsers: 'shashisingh223344@gmail.com'
 
 
   - stage: terraformapply
@@ -61,12 +71,3 @@ stages:
             backendAzureRmContainerName: 'pipelinecontainer'
             backendAzureRmKey: 'tfstate'
         
-  # - stage: manualvalidation
-  #   jobs: 
-  #     - job: manualvalidation
-  #       pool: server
-  #       steps:
-  #       - task: ManualValidation@1
-  #         displayName: manulvalidation
-  #         inputs:
-  #           notifyUsers: 'shashisingh223344@gmail.com'
