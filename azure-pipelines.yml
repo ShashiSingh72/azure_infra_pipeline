@@ -40,11 +40,9 @@ stages:
     jobs: 
       - job: terraformscan
         steps: 
-        - task: PublishTestResults@2
+        - task: tfsec@1
           inputs:
-            testResultsFiles: 'tfsec-results.junit'
-            testRunTitle: 'tfsec scan'
-          condition: always()
+            version: 'v1.26.0'
 
 
   - stage: terraformapply
