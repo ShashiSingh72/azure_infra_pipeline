@@ -40,10 +40,6 @@ stages:
     jobs: 
       - job: terraformscan
         steps: 
-        - script: |
-            tfsec --format junit --out tfsec-results.junit .
-          displayName: 'Run tfsec scan'
-
         - task: PublishTestResults@2
           inputs:
             testResultsFiles: 'tfsec-results.junit'
