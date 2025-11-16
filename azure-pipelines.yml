@@ -5,9 +5,10 @@ trigger:
 pool: my agent pool
 
 stages:
-  - stage: initinstall
+  - stage: initplan
+    displayName: initplan
     jobs:
-      - job: terraforminstallinit
+      - job: terraforminitplan
         steps:
         - task: TerraformInstaller@1
           displayName: terraforminstall
@@ -25,12 +26,49 @@ stages:
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
             backendAzureRmKey: 'tfstate'
-
-      - job: manualvalidation
-        pool: server
-        steps:
-        - task: ManualValidation@1
-          displayName: manulvalidation
+        - task: TerraformTask@5
+          displayName: terraformplan
           inputs:
-            notifyUsers: 'shashisingh223344@gmail.com'
-            pool: server 
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            environmentServiceNameAzureRM: 'azure-ado-sc'
+
+
+  - stage: terraformscan
+    displayName: scanningtool
+    jobs: 
+      - job: terraformscan
+        steps: 
+        - task: tfsec@1
+          displayName: scanbytfsec
+          inputs:
+            version: 'v1.26.0'
+            args: 'scan and validate'
+
+
+  - stage: terraformapply
+    displayName: terraformapply
+    jobs: 
+      - job: terraformapply
+        steps: 
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendServiceArm: 'azure-ado-sc'
+            backendAzureRmResourceGroupName: 'pipeline_rg'
+            backendAzureRmStorageAccountName: 'pipelinestg01'
+            backendAzureRmContainerName: 'pipelinecontainer'
+            backendAzureRmKey: 'tfstate'
+        
+  # - stage: manualvalidation
+  #   jobs: 
+  #     - job: manualvalidation
+  #       pool: server
+  #       steps:
+  #       - task: ManualValidation@1
+  #         displayName: manulvalidation
+  #         inputs:
+  #           notifyUsers: 'shashisingh223344@gmail.com'
