@@ -112,7 +112,7 @@ variable "asgs" {
 
 variable "bastionsubnets" {
   type = map(object({
-    bassubnet_name  = string
+    bassubnet_name   = string
     location         = string
     rg_name          = string
     vnet_name        = string
@@ -122,17 +122,41 @@ variable "bastionsubnets" {
 
 variable "nsg_nic_associations" {}
 
-variable "bastionhosts" {
+# variable "bastionhosts" {
+#   type = map(object({
+#     bastion_name   = string
+#     location       = string
+#     rg_name        = string
+#     vnet_name      = string
+#     pip_name       = string
+#     bassubnet_name = string
+#     ip_configurations = list(object({
+#       ipconfig_name        = string
+#       public_ip_address_id = string
+#     }))
+#   }))
+# }
+
+variable "mssql_servers" {
   type = map(object({
-    bastion_name   = string
-    location       = string
-    rg_name        = string
-    vnet_name      = string
-    pip_name       = string
-    bassubnet_name = string
-    ip_configurations = list(object({
-      ipconfig_name        = string
-      public_ip_address_id = string
-    }))
+    sql_server_name              = string
+    resource_group_name          = string
+    location                     = string
+    administrator_login          = string
+    administrator_login_password = string
+    version                      = string
+  }))
+}
+
+variable "mssql_database" {
+  type = map(object({
+    mssql_database_name = string
+    collation           = string
+    license_type        = string
+    sql_server_name     = string
+    max_size_gb         = number
+    sku_name            = string
+    enclave_type        = string
+    resource_group_name = string
   }))
 }
