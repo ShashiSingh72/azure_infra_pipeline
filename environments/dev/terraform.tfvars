@@ -7,8 +7,17 @@ rgs = {
       environment = "dev"
       project     = "project1"
     }
-
   }
+    "rg2" = {
+    rg_name    = "dev-rg12"
+    location   = "West Europe"
+    managed_by = "Terraform"
+    tags = {
+      environment = "dev"
+      project     = "project1"
+    }
+  }
+  
 }
 
 pips = {
@@ -198,22 +207,22 @@ nsg_nic_associations = {
     rg_name  = "dev-rg11"
 } }
 
-bastionhosts = {
-  "bastion1" = {
-    bastion_name   = "AzureBastion11"
-    location       = "West Europe"
-    rg_name        = "dev-rg11"
-    vnet_name      = "dev-vnet11"
-    pip_name       = "bastion-pip12"
-    bassubnet_name = "AzureBastionSubnet"
-    ip_configurations = [
-      {
-        ipconfig_name        = "bastion-ipconfig1"
-        public_ip_address_id = "bastion-pip11"
-      }
-    ]
-  }
-}
+# bastionhosts = {
+#   "bastion1" = {
+#     bastion_name   = "AzureBastion11"
+#     location       = "West Europe"
+#     rg_name        = "dev-rg11"
+#     vnet_name      = "dev-vnet11"
+#     pip_name       = "bastion-pip12"
+#     bassubnet_name = "AzureBastionSubnet"
+#     ip_configurations = [
+#       {
+#         ipconfig_name        = "bastion-ipconfig1"
+#         public_ip_address_id = "bastion-pip11"
+#       }
+#     ]
+#   }
+# }
 
 mssql_servers = {
   "mssql_server1" = {
