@@ -40,11 +40,15 @@ stages:
     jobs: 
       - job: terraformscan
         steps: 
-        - task: tfsec@1
-          displayName: scanbytfsec
+        - script: |
+            tfsec --format junit --out tfsec-results.junit .
+          displayName: 'Run tfsec scan'
+
+        - task: PublishTestResults@2
           inputs:
-            version: 'v1.26.0'
-            args: 'scan and validate'
+            testResultsFiles: 'tfsec-results.junit'
+            testRunTitle: 'tfsec scan'
+          condition: always()
 
 
   - stage: terraformapply
