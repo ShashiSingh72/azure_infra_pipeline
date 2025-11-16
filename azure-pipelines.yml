@@ -1,6 +1,5 @@
 trigger: 
 -  feature/*
--  main
 
 pool: my agent pool
 
