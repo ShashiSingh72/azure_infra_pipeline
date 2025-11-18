@@ -42,6 +42,4 @@ stages:
   - stage: Terraformplan
     displayName: terraformplan
     jobs: 
-    - job: 
-      steps:
         - template: templates_init.yaml
