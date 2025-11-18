@@ -29,14 +29,14 @@ stages:
 
 
 
-  - stage: terraformscan
-    displayName: scanningtool
-    jobs: 
-      - job: terraformscan
-        steps: 
-        - task: tfsec@1
-          inputs:
-            version: 'v1.26.0'
+  # - stage: terraformscan
+  #   displayName: scanningtool
+  #   jobs: 
+  #     - job: terraformscan
+  #       steps: 
+  #       - task: tfsec@1
+  #         inputs:
+  #           version: 'v1.26.0'
 
 
   - stage: terraformplan
