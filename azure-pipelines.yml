@@ -47,7 +47,7 @@ stages:
 
   - stage: terraformapply
     displayName: terraformapply
-    condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    # condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
       - job: terraformapply
         steps: 
