@@ -1,6 +1,6 @@
-trigger: 
-- feature/*
-- main
+trigger: none
+# - feature/*
+# - main
 
 pool: my agent pool
 
