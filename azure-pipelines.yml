@@ -5,10 +5,10 @@ trigger: none
 pool: my agent pool
 
 stages:
-  - stage: initplan
-    displayName: initplan
+  - stage: terraforminit
+    displayName: terraforminit
     jobs:
-      - job: terraforminitplan
+      - job: terraforminit
         steps:
         - task: TerraformInstaller@1
           displayName: terraforminstall
@@ -29,7 +29,7 @@ stages:
 
 
 
-  - stage: terraformscan
+  - stage: Tfsecscan
     displayName: scanningtool
     jobs: 
       - job: terraformscan
@@ -39,14 +39,14 @@ stages:
             version: 'v1.26.0'
 
 
-  - stage: terraformplan
+  - stage: Terraformplan
     displayName: terraformplan
     # condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
-      - job: terraformplan
+      - job: Terraformplan
         steps: 
         - task: TerraformInstaller@1
-          displayName: terraforminstall
+          displayName: Terraforminstall
           inputs:
             terraformVersion: 'latest'
         - task: TerraformTask@5
