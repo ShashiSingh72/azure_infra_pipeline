@@ -27,6 +27,12 @@ stages:
             backendAzureRmContainerName: 'pipelinecontainer'
             backendAzureRmKey: 'tfstate'
 
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Pipeline.Workspace)'
+            artifact: 'init'
+            publishLocation: 'pipeline'
+
 
 
   - stage: Tfsecscan
@@ -50,8 +56,8 @@ stages:
             approvers: 'devteam'
             instructions: 'approveplease'
 
-
-  - stage: Terraformplan
-    displayName: terraformplan
-    jobs: 
-        - template: templates_init.yaml
+  # - stage: Tfsecscan
+  #   displayName: scanningtool
+  #   jobs: 
+  #     - job: terraformscan
+  #       steps: 
