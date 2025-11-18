@@ -56,8 +56,16 @@ stages:
             approvers: 'devteam'
             instructions: 'approveplease'
 
-  # - stage: Tfsecscan
-  #   displayName: scanningtool
-  #   jobs: 
-  #     - job: terraformscan
-  #       steps: 
+  - stage: Terraformplan
+    displayName: Terraformplan
+    jobs: 
+      - job: Terraformplan
+        steps: 
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'init'
+            itemPattern: |
+              cd $(pipeline.workspace)
+              chmod -R +x .environments/dev
+            targetPath: '$(Pipeline.Workspace)'
