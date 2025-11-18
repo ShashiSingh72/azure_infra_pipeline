@@ -1,17 +1,19 @@
-steps:
-  - task: TerraformInstaller@1
-    displayName: "Install Terraform"
-    inputs:
-      terraformVersion: 'latest'
+  jobs:
+    - job: terraforminit
+      steps:
+      - task: TerraformInstaller@1
+        displayName: terraforminstall
+        inputs:
+          terraformVersion: 'latest'
 
-  - task: TerraformTask@5
-    displayName: "Terraform Init"
-    inputs:
-      provider: 'azurerm'
-      command: 'init'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-      backendServiceArm: 'azure-ado-sc'
-      backendAzureRmResourceGroupName: 'pipeline_rg'
-      backendAzureRmStorageAccountName: 'pipelinestg01'
-      backendAzureRmContainerName: 'pipelinecontainer'
-      backendAzureRmKey: 'tfstate'
+      - task: TerraformTask@5
+        displayName: terraforminit
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+          backendServiceArm: 'azure-ado-sc'
+          backendAzureRmResourceGroupName: 'pipeline_rg'
+          backendAzureRmStorageAccountName: 'pipelinestg01'
+          backendAzureRmContainerName: 'pipelinecontainer'
+          backendAzureRmKey: 'tfstate'
