@@ -38,6 +38,18 @@ stages:
           inputs:
             version: 'v1.26.0'
 
+  - stage: manualvalidation
+    displayName: manualvalidation
+    jobs: 
+      - job: manualvalidation
+        pool: server
+        steps: 
+        - task: ManualValidation@1
+          inputs:
+            notifyUsers: 'shashisingh223344@gmail.com'
+            approvers: 'devteam'
+            instructions: 'approveplease'
+
 
   - stage: Terraformplan
     displayName: terraformplan
