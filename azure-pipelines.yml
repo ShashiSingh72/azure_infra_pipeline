@@ -1,6 +1,6 @@
-trigger: 
-  - feature/*
-  - main
+trigger: none
+# - feature/*
+# - main
 
 pool: my agent pool
 
@@ -26,13 +26,7 @@ stages:
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
             backendAzureRmKey: 'tfstate'
-        - task: TerraformTask@5
-          displayName: terraformplan
-          inputs:
-            provider: 'azurerm'
-            command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-            environmentServiceNameAzureRM: 'azure-ado-sc'
+
 
 
   - stage: terraformscan
@@ -45,12 +39,16 @@ stages:
             version: 'v1.26.0'
 
 
-  - stage: terraformapply
-    displayName: terraformapply
+  - stage: terraformplan
+    displayName: terraformplan
     # condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
-      - job: terraformapply
+      - job: terraformplan
         steps: 
+        - task: TerraformInstaller@1
+          displayName: terraforminstall
+          inputs:
+            terraformVersion: 'latest'
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
@@ -63,8 +61,16 @@ stages:
             backendAzureRmKey: 'tfstate'
 
         - task: TerraformTask@5
+          displayName: terraformplan
           inputs:
             provider: 'azurerm'
-            command: 'apply'
+            command: 'plan'
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
+
+        # - task: TerraformTask@5
+        #   inputs:
+        #     provider: 'azurerm'
+        #     command: 'apply'
+        #     workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+        #     environmentServiceNameAzureRM: 'azure-ado-sc'

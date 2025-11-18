@@ -1,6 +1,6 @@
-rgs = {
-  "rg1" = {
-    rg_name    = "dev-rg11"
+rgs11 = {
+  "rg11" = {
+    rg_name    = "dev-rg22"
     location   = "West Europe"
     managed_by = "Terraform"
     tags = {
@@ -8,8 +8,8 @@ rgs = {
       project     = "project1"
     }
   }
-    "rg2" = {
-    rg_name    = "dev-rg12"
+    "rg12" = {
+    rg_name    = "dev-rg23"
     location   = "West Europe"
     managed_by = "Terraform"
     tags = {
@@ -20,37 +20,11 @@ rgs = {
   
 }
 
-pips = {
-  "pip1" = {
-    pip_name          = "frontend-pip11"
+pips11 = {
+  "pip11" = {
+    pip_name          = "frontend-pip22"
     location          = "West Europe"
-    rg_name           = "dev-rg11"
-    allocation_method = "Static"
-    sku               = "Standard"
-    domain_name_label = "devpip21"
-    tags = {
-      environment = "dev"
-      project     = "project1"
-    }
-  }
-
-  "pip2" = {
-    pip_name          = "backend-pip12"
-    location          = "West Europe"
-    rg_name           = "dev-rg11"
-    allocation_method = "Static"
-    sku               = "Standard"
-    domain_name_label = "devpip22"
-    tags = {
-      environment = "dev"
-      project     = "project1"
-    }
-  }
-
-  "pip3" = {
-    pip_name          = "bastion-pip12"
-    location          = "West Europe"
-    rg_name           = "dev-rg11"
+    rg_name           = "dev-rg22"
     allocation_method = "Static"
     sku               = "Standard"
     domain_name_label = "devpip23"
@@ -59,13 +33,39 @@ pips = {
       project     = "project1"
     }
   }
+
+  "pip12" = {
+    pip_name          = "backend-pip22"
+    location          = "West Europe"
+    rg_name           = "dev-rg22"
+    allocation_method = "Static"
+    sku               = "Standard"
+    domain_name_label = "devpip24"
+    tags = {
+      environment = "dev"
+      project     = "project1"
+    }
+  }
+
+  "pip13" = {
+    pip_name          = "bastion-pip22"
+    location          = "West Europe"
+    rg_name           = "dev-rg22"
+    allocation_method = "Static"
+    sku               = "Standard"
+    domain_name_label = "devpip25"
+    tags = {
+      environment = "dev"
+      project     = "project1"
+    }
+  }
 }
 
-vnets = {
-  "vnet1" = {
-    vnet_name     = "dev-vnet11"
+vnets11 = {
+  "vnet11" = {
+    vnet_name     = "dev-vnet22"
     location      = "West Europe"
-    rg_name       = "dev-rg11"
+    rg_name       = "dev-rg22"
     address_space = ["10.0.0.0/16"]
     tags = {
       environment = "dev"
@@ -83,17 +83,17 @@ vnets = {
   }
 }
 
-vms = {
-  "vm1" = {
-    vm_name                         = "frontend-vm11"
-    rg_name                         = "dev-rg11"
+vms11 = {
+  "vm11" = {
+    vm_name                         = "frontend-vm22"
+    rg_name                         = "dev-rg22"
     location                        = "West Europe"
     size                            = "Standard_B1s"
     disable_password_authentication = false
-    nic_name                        = "dev-nic111"
-    pip_name                        = "frontend-pip11"
+    nic_name                        = "dev-nic22"
+    pip_name                        = "frontend-pip22"
     subnet_name                     = "frontend-subnet"
-    vnet_name                       = "dev-vnet11"
+    vnet_name                       = "dev-vnet22"
     ip_configurations = [
       {
         ipconfig_name                 = "ipconfig1"
@@ -117,16 +117,16 @@ vms = {
     ]
   }
 
-  "vm2" = {
-    vm_name                         = "backend-vm11"
-    rg_name                         = "dev-rg11"
+  "vm22" = {
+    vm_name                         = "backend-vm22"
+    rg_name                         = "dev-rg22"
     location                        = "West Europe"
     size                            = "Standard_B1s"
     disable_password_authentication = false
-    nic_name                        = "dev-nic112"
-    pip_name                        = "backend-pip12"
+    nic_name                        = "dev-nic22"
+    pip_name                        = "backend-pip22"
     subnet_name                     = "backend-subnet"
-    vnet_name                       = "dev-vnet11"
+    vnet_name                       = "dev-vnet22"
     ip_configurations = [
       {
         ipconfig_name                 = "ipconfig2"
@@ -150,11 +150,11 @@ vms = {
   }
 }
 
-key_vaults = {
-  "kv1" = {
-    kv_name                     = "shashikv011"
+key_vaults11 = {
+  "kv22" = {
+    kv_name                     = "shashikv022"
     location                    = "West Europe"
-    rg_name                     = "dev-rg11"
+    rg_name                     = "dev-rg22"
     enabled_for_disk_encryption = true
     soft_delete_retention_days  = 7
     purge_protection_enabled    = false
@@ -162,11 +162,11 @@ key_vaults = {
   }
 }
 
-nsgs = {
-  nsg1 = {
-    nsg_name = "dev-nsg11"
+nsgs11 = {
+  "nsg11" = {
+    nsg_name = "dev-nsg22"
     location = "West Europe"
-    rg_name  = "dev-rg11"
+    rg_name  = "dev-rg22"
     security_rules = [
       {
         name                       = "Allow-SSH"
@@ -183,28 +183,28 @@ nsgs = {
   }
 }
 
-asgs = {
-  asg1 = {
-    asg_name = "dev-asg11"
+asgs11 = {
+  "asg11" = {
+    asg_name = "dev-asg22"
     location = "West Europe"
-    rg_name  = "dev-rg11"
+    rg_name  = "dev-rg22"
   }
 }
 
-bastionsubnets = {
-  "bassubnet1" = {
+bastionsubnets11 = {
+  "bassubnet11" = {
     bassubnet_name   = "AzureBastionSubnet"
     location         = "West Europe"
-    rg_name          = "dev-rg11"
-    vnet_name        = "dev-vnet11"
+    rg_name          = "dev-rg22"
+    vnet_name        = "dev-vnet22"
     address_prefixes = ["10.0.0.0/27"]
 } }
 
-nsg_nic_associations = {
-  "assoc1" = {
-    nsg_name = "dev-nsg11"
-    nic_name = "dev-nic111"
-    rg_name  = "dev-rg11"
+nsg_nic_associations11 = {
+  "assoc11" = {
+    nsg_name = "dev-ns22"
+    nic_name = "dev-nic22"
+    rg_name  = "dev-rg22"
 } }
 
 # bastionhosts = {
@@ -224,10 +224,10 @@ nsg_nic_associations = {
 #   }
 # }
 
-mssql_servers = {
-  "mssql_server1" = {
-    sql_server_name              = "dev-mssql-server2"
-    resource_group_name          = "dev-rg11"
+mssql_servers11 = {
+  "mssql_server11" = {
+    sql_server_name              = "dev-mssql-server22"
+    resource_group_name          = "dev-rg22"
     location                     = "West US"
     administrator_login          = "sqladminuser"
     administrator_login_password = "Password@12345"
@@ -235,15 +235,15 @@ mssql_servers = {
   }
 }
 
-mssql_database = {
-  "sql_database1" = {
-    mssql_database_name = "dev-sql-database"
+mssql_database11 = {
+  "sql_database11" = {
+    mssql_database_name = "dev-sql-database22"
     collation           = "SQL_Latin1_General_CP1_CI_AS"
     license_type        = "LicenseIncluded"
     max_size_gb         = "2"
-    sql_server_name     = "dev-mssql-server2"
+    sql_server_name     = "dev-mssql-server22"
     sku_name            = "S0"
     enclave_type        = "VBS"
-    resource_group_name = "dev-rg11"
+    resource_group_name = "dev-rg22"
   }
 }
