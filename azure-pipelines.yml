@@ -29,14 +29,14 @@ stages:
 
 
 
-  # - stage: terraformscan
-  #   displayName: scanningtool
-  #   jobs: 
-  #     - job: terraformscan
-  #       steps: 
-  #       - task: tfsec@1
-  #         inputs:
-  #           version: 'v1.26.0'
+  - stage: terraformscan
+    displayName: scanningtool
+    jobs: 
+      - job: terraformscan
+        steps: 
+        - task: tfsec@1
+          inputs:
+            version: 'v1.26.0'
 
 
   - stage: terraformplan
@@ -45,6 +45,10 @@ stages:
     jobs: 
       - job: terraformplan
         steps: 
+        - task: TerraformInstaller@1
+          displayName: terraforminstall
+          inputs:
+            terraformVersion: 'latest'
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
