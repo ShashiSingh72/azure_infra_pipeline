@@ -1,4 +1,4 @@
-        - job: 
+      - job: 
         steps: 
         - task: TerraformInstaller@1
         displayName: Terraforminstall
