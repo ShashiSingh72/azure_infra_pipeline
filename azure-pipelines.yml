@@ -46,7 +46,7 @@ stages:
       # Publish Artifact (for next stages)
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(System.DefaultWorkingDirectory)/environments'
+          targetPath: '$(System.DefaultWorkingDirectory)'
           artifact: 'tfartifact'
           publishLocation: 'pipeline'
 
@@ -54,34 +54,34 @@ stages:
 # ====================================================
 #             STAGE 2 – SECURITY SCANNING            
 # ====================================================
-- stage: SecurityScan
-  displayName: "Security Scan"
-  dependsOn: Init
-  jobs:
-    - job: ScanJob
-      steps:
+# - stage: SecurityScan
+#   displayName: "Security Scan"
+#   dependsOn: Init
+#   jobs:
+#     - job: ScanJob
+#       steps:
 
-      - task: tfsec@1
-        displayName: "TFSEC Security Scan"
-        inputs:
-          version: 'v1.26.0'
+#       - task: tfsec@1
+#         displayName: "TFSEC Security Scan"
+#         inputs:
+#           version: 'v1.26.0'
 
 
 # ====================================================
 #          STAGE 3 – MANUAL APPROVAL (Optional)       
 # ====================================================
-- stage: ManualApproval
-  displayName: "Approve Terraform Deployment"
-  dependsOn: SecurityScan
-  jobs:
-    - job: Approval
-      pool: server
-      steps:
-        - task: ManualValidation@1
-          inputs:
-            notifyUsers: 'shashisingh223344@gmail.com'
-            instructions: 'Please approve to continue.'
-            timeout: '2'
+# - stage: ManualApproval
+#   displayName: "Approve Terraform Deployment"
+#   dependsOn: SecurityScan
+#   jobs:
+#     - job: Approval
+#       pool: server
+#       steps:
+#         - task: ManualValidation@1
+#           inputs:
+#             notifyUsers: 'shashisingh223344@gmail.com'
+#             instructions: 'Please approve to continue.'
+#             timeout: '2'
 
 
 # ====================================================
@@ -89,7 +89,7 @@ stages:
 # ====================================================
 - stage: Plan
   displayName: "Terraform Plan"
-  dependsOn: ManualApproval
+  # dependsOn: ManualApproval
   jobs:
     - job: PlanJob
       steps:
@@ -119,37 +119,37 @@ stages:
 # ====================================================
 #                  STAGE 5 – APPLY                   
 # ====================================================
-- stage: Apply
-  displayName: "Terraform Apply"
-  dependsOn: Plan
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  # Apply should only run from main branch (best practice)
+# - stage: Apply
+#   displayName: "Terraform Apply"
+#   dependsOn: Plan
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+#   # Apply should only run from main branch (best practice)
 
-  jobs:
-    - job: ApplyJob
-      displayName: "Apply Terraform Changes"
-      steps:
+#   jobs:
+#     - job: ApplyJob
+#       displayName: "Apply Terraform Changes"
+#       steps:
 
-      # Install Terraform again (new agent)
-      - task: TerraformInstaller@1
-        displayName: "Install Terraform"
-        inputs:
-          terraformVersion: 'latest'
+#       # Install Terraform again (new agent)
+#       - task: TerraformInstaller@1
+#         displayName: "Install Terraform"
+#         inputs:
+#           terraformVersion: 'latest'
 
-      # Download the same artifact
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          artifactName: 'tfartifact'
-          targetPath: '$(Pipeline.Workspace)'
+#       # Download the same artifact
+#       - task: DownloadPipelineArtifact@2
+#         inputs:
+#           artifactName: 'tfartifact'
+#           targetPath: '$(Pipeline.Workspace)'
 
-      # Terraform Apply
-      - task: TerraformTask@5
-        displayName: "Terraform Apply"
-        inputs:
-          provider: 'azurerm'
-          command: 'apply'
-          workingDirectory: '$(Pipeline.Workspace)/${{ parameters.environment }}'
-          environmentServiceNameAzureRM: 'azure-ado-sc'
+#       # Terraform Apply
+#       - task: TerraformTask@5
+#         displayName: "Terraform Apply"
+#         inputs:
+#           provider: 'azurerm'
+#           command: 'apply'
+#           workingDirectory: '$(Pipeline.Workspace)/${{ parameters.environment }}'
+#           environmentServiceNameAzureRM: 'azure-ado-sc'
 
 
 # trigger: 
