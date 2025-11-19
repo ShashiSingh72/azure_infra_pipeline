@@ -60,8 +60,7 @@ stages:
         - task: ManualValidation@1
           inputs:
             notifyUsers: 'shashisingh223344@gmail.com'
-            approvers: 'devteam'
-            instructions: 'approveplease'
+            instructions: 'approve please'
 
   - stage: Terraformplan
     displayName: Terraformplan
