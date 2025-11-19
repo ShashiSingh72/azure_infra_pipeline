@@ -2,13 +2,13 @@ trigger: none
 # - feature/*
 # - main
 
-parameters:
-  - name: environment
-    type: string
-    default: dev
-    values:
-      - dev
-      - prod
+# parameters:
+#   - name: environment
+#     type: string
+#     default: dev
+#     values:
+#       - dev
+#       - prod
 
 pool: my agent pool
 
@@ -28,12 +28,12 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             backendServiceArm: 'azure-ado-sc'
             backendAzureRmResourceGroupName: 'pipeline_rg'
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: '${{parameters.environment}}.tfstate'
+            backendAzureRmKey: 'tfstate'
 
 
 
@@ -52,27 +52,28 @@ stages:
     jobs: 
       - job: terraformplan
         steps: 
-        - task: TerraformInstaller@1
-          displayName: terraforminstall
-          inputs:
-            terraformVersion: 'latest'
-        - task: TerraformTask@5
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}'
-            backendServiceArm: 'azure-ado-sc'
-            backendAzureRmResourceGroupName: 'pipeline_rg'
-            backendAzureRmStorageAccountName: 'pipelinestg01'
-            backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: '${{parameters.environment}}.tfstate'
+        - template: terraform init template.yml
+        # - task: TerraformInstaller@1
+        #   displayName: terraforminstall
+        #   inputs:
+        #     terraformVersion: 'latest'
+        # - task: TerraformTask@5
+        #   inputs:
+        #     provider: 'azurerm'
+        #     command: 'init'
+        #     workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+        #     backendServiceArm: 'azure-ado-sc'
+        #     backendAzureRmResourceGroupName: 'pipeline_rg'
+        #     backendAzureRmStorageAccountName: 'pipelinestg01'
+        #     backendAzureRmContainerName: 'pipelinecontainer'
+        #     backendAzureRmKey: 'tfstate'
 
         - task: TerraformTask@5
           displayName: terraformplan
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
 
         # - task: TerraformTask@5
