@@ -1,241 +1,76 @@
-trigger:
-  - feature/*
-  - main
-
-# -------------------- PARAMETERS --------------------
-parameters:
-  - name: environment
-    type: string
-    default: dev
-    values:
-      - dev
-      - prod
-
-pool: my agent pool
-
-# ====================================================
-#                    STAGE 1 – INIT                  
-# ====================================================
-stages:
-- stage: Init
-  displayName: "Terraform Init"
-  jobs:
-    - job: InitJob
-      displayName: "Init Terraform"
-      steps:
-
-      # Install Terraform
-      - task: TerraformInstaller@1
-        displayName: "Install Terraform"
-        inputs:
-          terraformVersion: 'latest'
-
-      # Terraform Init
-      - task: TerraformTask@5
-        displayName: "Terraform Init"
-        inputs:
-          provider: 'azurerm'
-          command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{ parameters.environment }}'
-          backendServiceArm: 'azure-ado-sc'
-          backendAzureRmResourceGroupName: 'pipeline_rg'
-          backendAzureRmStorageAccountName: 'pipelinestg01'
-          backendAzureRmContainerName: 'pipelinecontainer'
-          backendAzureRmKey: '${{ parameters.environment }}.tfstate'
-
-      # Publish Artifact (for next stages)
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: '$(System.DefaultWorkingDirectory)'
-          artifact: 'tfartifact'
-          publishLocation: 'pipeline'
-
-
-# ====================================================
-#             STAGE 2 – SECURITY SCANNING            
-# ====================================================
-# - stage: SecurityScan
-#   displayName: "Security Scan"
-#   dependsOn: Init
-#   jobs:
-#     - job: ScanJob
-#       steps:
-
-#       - task: tfsec@1
-#         displayName: "TFSEC Security Scan"
-#         inputs:
-#           version: 'v1.26.0'
-
-
-# ====================================================
-#          STAGE 3 – MANUAL APPROVAL (Optional)       
-# ====================================================
-# - stage: ManualApproval
-#   displayName: "Approve Terraform Deployment"
-#   dependsOn: SecurityScan
-#   jobs:
-#     - job: Approval
-#       pool: server
-#       steps:
-#         - task: ManualValidation@1
-#           inputs:
-#             notifyUsers: 'shashisingh223344@gmail.com'
-#             instructions: 'Please approve to continue.'
-#             timeout: '2'
-
-
-# ====================================================
-#                    STAGE 4 – PLAN                  
-# ====================================================
-- stage: Plan
-  displayName: "Terraform Plan"
-  # dependsOn: ManualApproval
-  jobs:
-    - job: PlanJob
-      steps:
-
-      # Install Terraform again (new agent)
-      - task: TerraformInstaller@1
-        displayName: "Install Terraform"
-        inputs:
-          terraformVersion: 'latest'
-
-      # Download artifact from init stage
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          artifactName: 'tfartifact'
-          targetPath: '$(Pipeline.Workspace)'
-
-      # Run Terraform Plan
-      - task: TerraformTask@5
-        displayName: "Terraform Plan"
-        inputs:
-          provider: 'azurerm'
-          command: 'plan'
-          workingDirectory: '$(Pipeline.Workspace)/environments/${{ parameters.environment }}'
-          environmentServiceNameAzureRM: 'azure-ado-sc'
-
-
-# ====================================================
-#                  STAGE 5 – APPLY                   
-# ====================================================
-# - stage: Apply
-#   displayName: "Terraform Apply"
-#   dependsOn: Plan
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-#   # Apply should only run from main branch (best practice)
-
-#   jobs:
-#     - job: ApplyJob
-#       displayName: "Apply Terraform Changes"
-#       steps:
-
-#       # Install Terraform again (new agent)
-#       - task: TerraformInstaller@1
-#         displayName: "Install Terraform"
-#         inputs:
-#           terraformVersion: 'latest'
-
-#       # Download the same artifact
-#       - task: DownloadPipelineArtifact@2
-#         inputs:
-#           artifactName: 'tfartifact'
-#           targetPath: '$(Pipeline.Workspace)'
-
-#       # Terraform Apply
-#       - task: TerraformTask@5
-#         displayName: "Terraform Apply"
-#         inputs:
-#           provider: 'azurerm'
-#           command: 'apply'
-#           workingDirectory: '$(Pipeline.Workspace)/${{ parameters.environment }}'
-#           environmentServiceNameAzureRM: 'azure-ado-sc'
-
-
-# trigger: 
+trigger: none
 # - feature/*
 # - main
 
-# parameters: 
-#     - name: environments
-#       type: string
-#       default: dev
-#       values: 
-#        - dev
-#        - prod
-# pool: my agent pool
+pool: my agent pool
 
-# stages:
-#   - stage: terraforminit
-#     displayName: terraforminit
-#     jobs:
-#       - job: terraforminit
-#         steps:
-#         - task: TerraformInstaller@1
-#           displayName: terraforminstall
-#           inputs:
-#             terraformVersion: 'latest'
+stages:
+  - stage: initplan
+    displayName: initplan
+    jobs:
+      - job: terraforminitplan
+        steps:
+        - task: TerraformInstaller@1
+          displayName: terraforminstall
+          inputs:
+            terraformVersion: 'latest'
 
-#         - task: TerraformTask@5
-#           displayName: terraforminit
-#           inputs:
-#             provider: 'azurerm'
-#             command: 'init'
-#             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environments}}'
-#             backendServiceArm: 'azure-ado-sc'
-#             backendAzureRmResourceGroupName: 'pipeline_rg'
-#             backendAzureRmStorageAccountName: 'pipelinestg01'
-#             backendAzureRmContainerName: 'pipelinecontainer'
-#             backendAzureRmKey: '${{parameters.environments}}.tfstate'
-
-#         - task: PublishPipelineArtifact@1
-#           inputs:
-#             targetPath: '$(Pipeline.Workspace)'
-#             artifact: 'init'
-#             publishLocation: 'pipeline'
+        - task: TerraformTask@5
+          displayName: terraforminit
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendServiceArm: 'azure-ado-sc'
+            backendAzureRmResourceGroupName: 'pipeline_rg'
+            backendAzureRmStorageAccountName: 'pipelinestg01'
+            backendAzureRmContainerName: 'pipelinecontainer'
+            backendAzureRmKey: 'tfstate'
 
 
 
-#   - stage: Tfsecscan
-#     displayName: scanningtool
-#     jobs: 
-#       - job: terraformscan
-#         steps: 
-#         - task: tfsec@1
-#           inputs:
-#             version: 'v1.26.0'
+  - stage: terraformscan
+    displayName: scanningtool
+    jobs: 
+      - job: terraformscan
+        steps: 
+        - task: tfsec@1
+          inputs:
+            version: 'v1.26.0'
 
-#   - stage: manualvalidation
-#     displayName: manualvalidation
-#     jobs: 
-#       - job: manualvalidation
-#         pool: server
-#         steps: 
-#         - task: ManualValidation@1
-#           inputs:
-#             notifyUsers: 'shashisingh223344@gmail.com'
-#             instructions: 'approve please'
 
-#   - stage: Terraformplan
-#     displayName: Terraformplan
-#     jobs: 
-#       - job: Terraformplan
-#         steps: 
-#         - task: TerraformInstaller@1
-#           inputs:
-#             terraformVersion: 'latest'
-#         - task: DownloadPipelineArtifact@2
-#           inputs:
-#             buildType: 'current'
-#             artifactName: 'init'
-#             itemPattern: |
-#               cd $(pipeline.workspace)
-#               chmod -R +x .environments/dev
-#             targetPath: '$(Pipeline.Workspace)'
+  - stage: terraformplan
+    displayName: terraformplan
+    # condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs: 
+      - job: terraformplan
+        steps: 
+        - task: TerraformInstaller@1
+          displayName: terraforminstall
+          inputs:
+            terraformVersion: 'latest'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendServiceArm: 'azure-ado-sc'
+            backendAzureRmResourceGroupName: 'pipeline_rg'
+            backendAzureRmStorageAccountName: 'pipelinestg01'
+            backendAzureRmContainerName: 'pipelinecontainer'
+            backendAzureRmKey: 'tfstate'
 
-#         - task: TerraformTask@5
-#           inputs:
-#             provider: 'azurerm'
-#             command: 'plan'
-#             workingDirectory: '$(Pipeline.Workspace)/dev'
-#             environmentServiceNameAzureRM: 'azure-ado-sc'
+        - task: TerraformTask@5
+          displayName: terraformplan
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            environmentServiceNameAzureRM: 'azure-ado-sc'
+
+        # - task: TerraformTask@5
+        #   inputs:
+        #     provider: 'azurerm'
+        #     command: 'apply'
+        #     workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+        #     environmentServiceNameAzureRM: 'azure-ado-sc'
