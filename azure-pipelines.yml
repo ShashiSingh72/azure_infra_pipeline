@@ -42,25 +42,25 @@ stages:
 
 
 
-  - stage: Tfsecscan
-    displayName: scanningtool
-    jobs: 
-      - job: terraformscan
-        steps: 
-        - task: tfsec@1
-          inputs:
-            version: 'v1.26.0'
+  # - stage: Tfsecscan
+  #   displayName: scanningtool
+  #   jobs: 
+  #     - job: terraformscan
+  #       steps: 
+  #       - task: tfsec@1
+  #         inputs:
+  #           version: 'v1.26.0'
 
-  - stage: manualvalidation
-    displayName: manualvalidation
-    jobs: 
-      - job: manualvalidation
-        pool: server
-        steps: 
-        - task: ManualValidation@1
-          inputs:
-            notifyUsers: 'shashisingh223344@gmail.com'
-            instructions: 'approve please'
+  # - stage: manualvalidation
+  #   displayName: manualvalidation
+  #   jobs: 
+  #     - job: manualvalidation
+  #       pool: server
+  #       steps: 
+  #       - task: ManualValidation@1
+  #         inputs:
+  #           notifyUsers: 'shashisingh223344@gmail.com'
+  #           instructions: 'approve please'
 
   - stage: Terraformplan
     displayName: Terraformplan
