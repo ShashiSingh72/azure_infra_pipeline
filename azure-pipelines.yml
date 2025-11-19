@@ -2,6 +2,14 @@ trigger: none
 # - feature/*
 # - main
 
+parameters:
+  - name: environments
+    type: string
+    default: dev
+    values:
+      - dev
+      - prod
+
 pool: my agent pool
 
 stages:
@@ -41,7 +49,6 @@ stages:
 
   - stage: terraformplan
     displayName: terraformplan
-    # condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
       - job: terraformplan
         steps: 
