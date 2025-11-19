@@ -80,5 +80,5 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(Pipeline.Workspace)'
+            workingDirectory: '$(Pipeline.Workspace)/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
