@@ -67,6 +67,9 @@ stages:
     jobs: 
       - job: Terraformplan
         steps: 
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
