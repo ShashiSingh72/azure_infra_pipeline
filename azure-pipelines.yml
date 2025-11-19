@@ -18,10 +18,10 @@ stages:
     jobs:
       - job: terraforminitplan
         steps:
-        - task: TerraformInstaller@1
-          displayName: terraforminstall
-          inputs:
-            terraformVersion: 'latest'
+        # - task: TerraformInstaller@1
+        #   displayName: terraforminstall
+        #   inputs:
+        #     terraformVersion: 'latest'
 
         - task: TerraformTask@5
           displayName: terraforminit
@@ -47,12 +47,12 @@ stages:
             version: 'v1.26.0'
 
 
-  - stage: terraformplan
-    displayName: terraformplan
-    jobs: 
-      - job: terraformplan
-        steps: 
-        - template: terraform init template.yml
+  # - stage: terraformplan
+  #   displayName: terraformplan
+  #   jobs: 
+  #     - job: terraformplan
+  #       steps: 
+
         # - task: TerraformInstaller@1
         #   displayName: terraforminstall
         #   inputs:
