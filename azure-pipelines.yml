@@ -3,7 +3,7 @@ trigger: none
 # - main
 
 parameters:
-  - name: environments
+  - name: environment
     type: string
     default: dev
     values:
@@ -28,12 +28,12 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}'
             backendServiceArm: 'azure-ado-sc'
             backendAzureRmResourceGroupName: 'pipeline_rg'
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: 'tfstate'
+            backendAzureRmKey: '${{parameters.environment}}.tfstate'
 
 
 
@@ -60,19 +60,19 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}'
             backendServiceArm: 'azure-ado-sc'
             backendAzureRmResourceGroupName: 'pipeline_rg'
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: 'tfstate'
+            backendAzureRmKey: '${{parameters.environment}}.tfstate'
 
         - task: TerraformTask@5
           displayName: terraformplan
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environment}}'
             environmentServiceNameAzureRM: 'azure-ado-sc'
 
         # - task: TerraformTask@5
