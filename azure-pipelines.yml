@@ -27,12 +27,12 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environments}}'
             backendServiceArm: 'azure-ado-sc'
             backendAzureRmResourceGroupName: 'pipeline_rg'
             backendAzureRmStorageAccountName: 'pipelinestg01'
             backendAzureRmContainerName: 'pipelinecontainer'
-            backendAzureRmKey: 'tfstate'
+            backendAzureRmKey: '${{parameters.environments}}.tfstate'
 
         - task: PublishPipelineArtifact@1
           inputs:
