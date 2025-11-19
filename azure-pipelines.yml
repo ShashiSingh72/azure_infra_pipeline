@@ -1,7 +1,14 @@
-trigger: none
-# - feature/*
-# - main
+trigger: 
+- feature/*
+- main
 
+parameters: 
+    - name: environments
+      type: string
+      default: dev
+      values: 
+       - dev
+       - prod
 pool: my agent pool
 
 stages:
