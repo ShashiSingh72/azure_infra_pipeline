@@ -75,3 +75,10 @@ stages:
               cd $(pipeline.workspace)
               chmod -R +x .environments/dev
             targetPath: '$(Pipeline.Workspace)'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/${{parameters.environments}}'
+            environmentServiceNameAzureRM: 'azure-ado-sc'
