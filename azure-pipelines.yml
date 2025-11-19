@@ -18,10 +18,10 @@ stages:
     jobs:
       - job: terraforminitplan
         steps:
-        # - task: TerraformInstaller@1
-        #   displayName: terraforminstall
-        #   inputs:
-        #     terraformVersion: 'latest'
+        - task: TerraformInstaller@1
+          displayName: terraforminstall
+          inputs:
+            terraformVersion: 'latest'
 
         - task: TerraformTask@5
           displayName: terraforminit
