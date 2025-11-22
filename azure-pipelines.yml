@@ -54,10 +54,12 @@ stages:
         displayName: tflitscan
         steps: 
         - task: CmdLine@2
-          displayName: tflint publish result
+          displayName: Run TFLint
           inputs:
-            script: 'tflint --chdir=$(System.DefaultWorkingDirectory) --recursive -f junit > tflint-result.xml'
-            workingDirectory: '$(Build.ArtifactStagingDirectory)'
+            script: |
+              cd "$(System.DefaultWorkingDirectory)"
+              tflint --format junit > "$(Build.ArtifactStagingDirectory)\tflint-result.xml"
+
 
         - task: PublishTestResults@2
           inputs:
