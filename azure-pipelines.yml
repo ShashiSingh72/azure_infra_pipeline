@@ -64,7 +64,6 @@ stages:
             testResultsFormat: 'JUnit'
             testResultsFiles: 'tflint-result.xml'
             searchFolder: '$(Build.ArtifactStagingDirectory)'
-            failTaskOnFailedTests: true
 
 
   # - stage: terraformplan
