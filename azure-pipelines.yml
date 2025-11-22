@@ -46,6 +46,26 @@ stages:
           inputs:
             version: 'v1.26.0'
 
+  - stage: tflintscan
+    displayName: scanningtool
+    jobs: 
+      - job: tflintscan
+        continueOnError: true
+        displayName: tflitscan
+        steps: 
+        - task: CmdLine@2
+          displayName: tflint publish result
+          inputs:
+            script: 'tflint --chdir=$(System.DefaultWorkingDirectory) --recursive -f junit > tflint-result.xml'
+            workingDirectory: '$(Build.ArtifactStagingDirectory)'
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'tflint-result.xml'
+            searchFolder: '$(Build.ArtifactStagingDirectory)'
+            failTaskOnFailedTests: true
+
 
   # - stage: terraformplan
   #   displayName: terraformplan
