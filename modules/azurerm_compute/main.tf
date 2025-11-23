@@ -68,8 +68,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 }
 data "azurerm_key_vault" "kv_data" {
-  name                = "devkeyvoult"
-  resource_group_name = "pipeline_rg"
+  name                = "kolvault-a"
+  resource_group_name = "backend-rg02"
 }
 
 
