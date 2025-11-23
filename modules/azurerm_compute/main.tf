@@ -41,8 +41,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name             = each.value.rg_name
   location                        = each.value.location
   size                            = each.value.size
-  admin_username                  = data.azurerm_key_vault_secret.secret_data.value
-  admin_password                  = data.azurerm_key_vault_secret.secret_data1.value
+  admin_username                  = each.value.admin_username
+  admin_password                  = each.value.admin_password
   disable_password_authentication = each.value.disable_password_authentication
   network_interface_ids = [
     azurerm_network_interface.nic[each.key].id,
@@ -67,18 +67,18 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
   }
 }
-data "azurerm_key_vault" "kv_data" {
-  name                = "devkeyvoult"
-  resource_group_name = "pipeline_rg"
-}
+# data "azurerm_key_vault" "kv_data" {
+#   name                = "devkeyvoult"
+#   resource_group_name = "pipeline_rg"
+# }
 
 
-data "azurerm_key_vault_secret" "secret_data" {
-  name         = "username"
-  key_vault_id = data.azurerm_key_vault.kv_data.id
-}
+# data "azurerm_key_vault_secret" "secret_data" {
+#   name         = "username"
+#   key_vault_id = data.azurerm_key_vault.kv_data.id
+# }
 
-data "azurerm_key_vault_secret" "secret_data1" {
-  name         = "password"
-  key_vault_id = data.azurerm_key_vault.kv_data.id
-}
+# data "azurerm_key_vault_secret" "secret_data1" {
+#   name         = "password"
+#   key_vault_id = data.azurerm_key_vault.kv_data.id
+# }

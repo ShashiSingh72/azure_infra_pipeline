@@ -8,7 +8,7 @@ rgs = {
       project     = "project1"
     }
   }
-  
+
 }
 
 pips = {
@@ -85,6 +85,8 @@ vms = {
     pip_name                        = "frontend-pip11"
     subnet_name                     = "frontend-subnet"
     vnet_name                       = "dev-vnet11"
+    admin_username                  = "username"
+    admin_password                  = "Password@12345"
     ip_configurations = [
       {
         ipconfig_name                 = "ipconfig1"
