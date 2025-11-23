@@ -8,15 +8,6 @@ rgs = {
       project     = "project1"
     }
   }
-    "rg2" = {
-    rg_name    = "dev-rg12"
-    location   = "West Europe"
-    managed_by = "Terraform"
-    tags = {
-      environment = "dev"
-      project     = "project1"
-    }
-  }
   
 }
 
