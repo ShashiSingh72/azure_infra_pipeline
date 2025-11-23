@@ -2,13 +2,7 @@ trigger: none
 # - feature/*
 # - main
 
-parameters:
-  - name: environment
-    type: string
-    default: dev
-    values:
-      - dev
-      - prod
+
 
 pool: my agent pool
 
@@ -97,5 +91,3 @@ stages:
             command: 'plan'
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
-
-
