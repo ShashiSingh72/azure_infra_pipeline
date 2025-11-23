@@ -2,6 +2,14 @@ trigger: none
 # - feature/*
 # - main
 
+parameters:
+  - name: environment
+    type: string
+    default: dev
+    values:
+      - dev
+      - prod
+
 pool: my agent pool
 
 stages:
@@ -29,22 +37,44 @@ stages:
 
 
 
-  - stage: terraformscan
+  - stage: tfsec
     displayName: scanningtool
     jobs: 
-      - job: terraformscan
+      - job: tfsec
         steps: 
         - task: tfsec@1
           inputs:
             version: 'v1.26.0'
 
+  - stage: tflint
+    displayName: scanningtool
+    jobs: 
+      - job: tflint
+        continueOnError: true
+        displayName: tflitscan
+        steps: 
+        - task: CmdLine@2
+          displayName: Run TFLint
+          inputs:
+            script: |
+              cd "$(System.DefaultWorkingDirectory)"
+              tflint --format junit > "$(Build.ArtifactStagingDirectory)\tflint-result.xml"
+
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'tflint-result.xml'
+            searchFolder: '$(Build.ArtifactStagingDirectory)'
+            failTaskOnMissingResultsFile: true
+
 
   - stage: terraformplan
     displayName: terraformplan
-    # condition: and(succeeded('initplan'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs: 
       - job: terraformplan
         steps: 
+
         - task: TerraformInstaller@1
           displayName: terraforminstall
           inputs:
@@ -68,10 +98,4 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
 
-        # - task: TerraformTask@5
-        #   inputs:
-        #     provider: 'azurerm'
-        #     command: 'apply'
-        #     workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-        #     environmentServiceNameAzureRM: 'azure-ado-sc'
 
