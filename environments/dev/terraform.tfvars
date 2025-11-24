@@ -7,8 +7,6 @@ rgs = {
       environment = "dev"
       project     = "project1"
     }
-  }
-
 }
 
 pips = {

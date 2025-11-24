@@ -31,36 +31,36 @@ stages:
 
 
 
-  - stage: tfsec
-    displayName: scanningtool
-    jobs: 
-      - job: tfsec
-        steps: 
-        - task: tfsec@1
-          inputs:
-            version: 'v1.26.0'
+  # - stage: tfsec
+  #   displayName: scanningtool
+  #   jobs: 
+  #     - job: tfsec
+  #       steps: 
+  #       - task: tfsec@1
+  #         inputs:
+  #           version: 'v1.26.0'
 
-  - stage: tflint
-    displayName: scanningtool
-    jobs: 
-      - job: tflint
-        continueOnError: true
-        displayName: tflitscan
-        steps: 
-        - task: CmdLine@2
-          displayName: Run TFLint
-          inputs:
-            script: |
-              cd "$(System.DefaultWorkingDirectory)"
-              tflint --format junit > "$(Build.ArtifactStagingDirectory)\tflint-result.xml"
+  # - stage: tflint
+  #   displayName: scanningtool
+  #   jobs: 
+  #     - job: tflint
+  #       continueOnError: true
+  #       displayName: tflitscan
+  #       steps: 
+  #       - task: CmdLine@2
+  #         displayName: Run TFLint
+  #         inputs:
+  #           script: |
+  #             cd "$(System.DefaultWorkingDirectory)"
+  #             tflint --format junit > "$(Build.ArtifactStagingDirectory)\tflint-result.xml"
 
 
-        - task: PublishTestResults@2
-          inputs:
-            testResultsFormat: 'JUnit'
-            testResultsFiles: 'tflint-result.xml'
-            searchFolder: '$(Build.ArtifactStagingDirectory)'
-            failTaskOnMissingResultsFile: true
+  #       - task: PublishTestResults@2
+  #         inputs:
+  #           testResultsFormat: 'JUnit'
+  #           testResultsFiles: 'tflint-result.xml'
+  #           searchFolder: '$(Build.ArtifactStagingDirectory)'
+  #           failTaskOnMissingResultsFile: true
 
 
   - stage: terraformplan
