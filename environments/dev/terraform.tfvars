@@ -122,7 +122,8 @@ vms = {
     pip_name                        = "backend-pip12"
     subnet_name                     = "backend-subnet"
     vnet_name                       = "dev-vnet11"
-
+    admin_username                  = "username"
+    admin_password                  = "Password@12345"
     ip_configurations = [
       {
         ipconfig_name                 = "ipconfig2"
