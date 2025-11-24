@@ -50,6 +50,8 @@ variable "vms" {
     pip_name                        = string
     subnet_name                     = string
     vnet_name                       = string
+    admin_username                  = string
+    admin_password                  = string
     ip_configurations = list(object({
       ipconfig_name                 = string
       private_ip_address_allocation = string

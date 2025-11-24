@@ -1,15 +1,17 @@
 variable "vms" {
   description = "A map of virtual machines to create"
   type = map(object({
-    vm_name                        = string
-    rg_name                        = string
-    location                       = string
-    size                           = string
+    vm_name                         = string
+    rg_name                         = string
+    location                        = string
+    size                            = string
     disable_password_authentication = bool
-    nic_name                       = string
-    pip_name                       = string
-    subnet_name                    = string
-    vnet_name                      = string
+    nic_name                        = string
+    pip_name                        = string
+    subnet_name                     = string
+    vnet_name                       = string
+    admin_username                  = string
+    admin_password                  = string
     ip_configurations = list(object({
       ipconfig_name                 = string
       private_ip_address_allocation = string
@@ -25,5 +27,5 @@ variable "vms" {
       version   = string
     }))
   }))
-  
+
 }

@@ -2,13 +2,7 @@ trigger: none
 # - feature/*
 # - main
 
-# parameters:
-#   - name: environment
-#     type: string
-#     default: dev
-#     values:
-#       - dev
-#       - prod
+
 
 pool: my agent pool
 
@@ -95,12 +89,5 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
-            environmentServiceNameAzureRM: 'azure-ado-sc'
-
-        - task: TerraformTask@5
-          inputs:
-            provider: 'azurerm'
-            command: 'apply'
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
