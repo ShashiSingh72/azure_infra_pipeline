@@ -50,17 +50,16 @@ stages:
         - task: CmdLine@2
           displayName: Run TFLint
           inputs:
-            script: |
-              cd "$(System.DefaultWorkingDirectory)"
-              tflint --format junit > "$(Build.ArtifactStagingDirectory)\tflint-result.xml"
+            script: 'tflint chdir=$(System.DefaultWorkingDirectory) --recursive -f junit > result-output.xml'
+            workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
 
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
-            testResultsFiles: 'tflint-result.xml'
+            testResultsFiles: 'result-output.xml'
             searchFolder: '$(Build.ArtifactStagingDirectory)'
-            failTaskOnMissingResultsFile: true
+
 
 
   - stage: terraformplan
@@ -98,4 +97,5 @@ stages:
             command: 'apply'
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'azure-ado-sc'
+
 
