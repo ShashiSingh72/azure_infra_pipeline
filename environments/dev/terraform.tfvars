@@ -7,6 +7,7 @@ rgs = {
       environment = "dev"
       project     = "project1"
     }
+  }
 }
 
 pips = {
@@ -68,7 +69,8 @@ vnets = {
       {
         subnet_name      = "backend-subnet"
         address_prefixes = ["10.0.2.0/24"]
-    }]
+      }
+    ]
   }
 }
 
@@ -85,19 +87,21 @@ vms = {
     vnet_name                       = "dev-vnet11"
     admin_username                  = "username"
     admin_password                  = "Password@12345"
+
     ip_configurations = [
       {
         ipconfig_name                 = "ipconfig1"
         private_ip_address_allocation = "Dynamic"
-
       }
     ]
+
     os_disk = [
       {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
       }
     ]
+
     source_image_reference = [
       {
         publisher = "Canonical"
@@ -118,18 +122,22 @@ vms = {
     pip_name                        = "backend-pip12"
     subnet_name                     = "backend-subnet"
     vnet_name                       = "dev-vnet11"
+    admin_username                  = "username"
+    admin_password                  = "Password@12345"
     ip_configurations = [
       {
         ipconfig_name                 = "ipconfig2"
         private_ip_address_allocation = "Dynamic"
       }
     ]
+
     os_disk = [
       {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
       }
     ]
+
     source_image_reference = [
       {
         publisher = "Canonical"
@@ -154,10 +162,11 @@ key_vaults = {
 }
 
 nsgs = {
-  nsg1 = {
+  "nsg1" = {
     nsg_name = "dev-nsg11"
     location = "West Europe"
     rg_name  = "dev-rg11"
+
     security_rules = [
       {
         name                       = "Allow-SSH"
@@ -175,7 +184,7 @@ nsgs = {
 }
 
 asgs = {
-  asg1 = {
+  "asg1" = {
     asg_name = "dev-asg11"
     location = "West Europe"
     rg_name  = "dev-rg11"
@@ -189,31 +198,16 @@ bastionsubnets = {
     rg_name          = "dev-rg11"
     vnet_name        = "dev-vnet11"
     address_prefixes = ["10.0.0.0/27"]
-} }
+  }
+}
 
 nsg_nic_associations = {
   "assoc1" = {
     nsg_name = "dev-nsg11"
     nic_name = "dev-nic111"
     rg_name  = "dev-rg11"
-} }
-
-# bastionhosts = {
-#   "bastion1" = {
-#     bastion_name   = "AzureBastion11"
-#     location       = "West Europe"
-#     rg_name        = "dev-rg11"
-#     vnet_name      = "dev-vnet11"
-#     pip_name       = "bastion-pip12"
-#     bassubnet_name = "AzureBastionSubnet"
-#     ip_configurations = [
-#       {
-#         ipconfig_name        = "bastion-ipconfig1"
-#         public_ip_address_id = "bastion-pip11"
-#       }
-#     ]
-#   }
-# }
+  }
+}
 
 mssql_servers = {
   "mssql_server1" = {
