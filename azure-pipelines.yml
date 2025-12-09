@@ -1,7 +1,18 @@
 trigger: none
 # - feature/*
 # - main
+variables:  
+- name: PATH
+  value: '$(System.DefaultWorkingDirectory)/environments/dev'
 
+parameters:
+  - name: 
+    type: string
+    default: dev
+    values:
+      - dev
+      - test
+      - prod
 
 
 pool: my agent pool
