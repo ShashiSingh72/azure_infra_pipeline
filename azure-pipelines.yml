@@ -2,10 +2,8 @@ trigger: none
 pool: my agent pool
 
 steps: 
-- task: PowerShell@2
-  continueOnError: true
+- task: CmdLine@2
   inputs:
-    targetType: 'inline'
     script: 'tflint --chdir=$(System.DefaultWorkingDirectory) --recursive -f junit > result.xml'
 
 - task: PublishTestResults@2
