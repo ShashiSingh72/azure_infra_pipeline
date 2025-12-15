@@ -29,6 +29,5 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      cd $(System.DefaultWorkingDirectory)
-      
-      tfsec
+      tfsec $(System.DefaultWorkingDirectory)
+      -f junit -O tfsecresult.xml
