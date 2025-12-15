@@ -30,3 +30,9 @@ steps:
   inputs:
     script: |
       tfsec $(System.DefaultWorkingDirectory) -f junit -O tfsecresult.xml
+
+- task: PublishTestResults@2
+  displayName: TFSEC RESULT
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'tfsecresult.xml'
