@@ -1,0 +1,9 @@
+trigger: none
+
+pool: my agent pool
+
+steps:
+- task: CmdLine@2
+  displayName: TFLINT SCAN
+  inputs:
+    script: 'tflint --recursive -f junit > result.xml'
