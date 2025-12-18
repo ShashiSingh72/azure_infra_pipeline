@@ -86,7 +86,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$WORK_DIR)/${{parameters.environments}}'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             backendServiceArm: '$(SVC_CONN)'
             backendAzureRmStorageAccountName: 'todostorage110'
             backendAzureRmContainerName: 'todocontainer'
