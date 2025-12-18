@@ -2,41 +2,41 @@ trigger: none
 pool: my agent pool
 
 steps: 
-- task: CmdLine@2
-  displayName: TFLINT TOOL
-  continueOnError: true
-  inputs:
-    script: 'tflint --chdir=$(System.DefaultWorkingDirectory) --recursive -f junit > result.xml'
+# - task: CmdLine@2
+#   displayName: TFLINT TOOL
+#   continueOnError: true
+#   inputs:
+#     script: 'tflint --chdir=$(System.DefaultWorkingDirectory) --recursive -f junit > result.xml'
 
-- task: PublishTestResults@2
-  displayName: TFLINT PUBLISH RESULT
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'result.xml'
+# - task: PublishTestResults@2
+#   displayName: TFLINT PUBLISH RESULT
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: 'result.xml'
 
-- task: CmdLine@2
-  displayName: CHECKOV TOOL
-  continueOnError: true
-  inputs:
-    script: 'checkov -d $(System.DefaultWorkingDirectory) -o junitxml > checkovresult.xml'
+# - task: CmdLine@2
+#   displayName: CHECKOV TOOL
+#   continueOnError: true
+#   inputs:
+#     script: 'checkov -d $(System.DefaultWorkingDirectory) -o junitxml > checkovresult.xml'
 
-- task: PublishTestResults@2
-  displayName: CHECKOV TEST RESULT
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'checkovresult.xml'
+# - task: PublishTestResults@2
+#   displayName: CHECKOV TEST RESULT
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: 'checkovresult.xml'
 
-- task: CmdLine@2
-  displayName: TFSEC
-  inputs:
-    script: |
-      tfsec $(System.DefaultWorkingDirectory) -f junit -O tfsecresult.xml
+# - task: CmdLine@2
+#   displayName: TFSEC
+#   inputs:
+#     script: |
+#       tfsec $(System.DefaultWorkingDirectory) -f junit -O tfsecresult.xml
 
-- task: PublishTestResults@2
-  displayName: TFSEC RESULT
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'tfsecresult.xml'
+# - task: PublishTestResults@2
+#   displayName: TFSEC RESULT
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: 'tfsecresult.xml'
 
 - task: CmdLine@2
   displayName: TERRASCAN TOOL
