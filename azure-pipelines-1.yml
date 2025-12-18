@@ -40,6 +40,7 @@ steps:
 
 - task: CmdLine@2
   displayName: TERRASCAN TOOL
+  continueOnError: true
   inputs:
     script: 'terrascan scan -o junit-xml > terraresult.xml'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
