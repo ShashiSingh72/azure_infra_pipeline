@@ -88,7 +88,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(WORK_DIR)/dev'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             backendServiceArm: '$(SVC_CONN)'
             backendAzureRmStorageAccountName: 'todostorage110'
             backendAzureRmContainerName: 'todocontainer'
@@ -113,7 +113,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(WORK_DIR)/dev'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             backendServiceArm: '$(SVC_CONN)'
             backendAzureRmStorageAccountName: 'todostorage110'
             backendAzureRmContainerName: 'todocontainer'
@@ -124,7 +124,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(WORK_DIR)/dev'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             environmentServiceNameAzureRM: '$(SVC_CONN)'
 
   - stage: MANUAL_VALIDATION
