@@ -2,23 +2,24 @@ trigger: none
 pool: my agent pool
 
 variables:
-# - name: WORK_DIR   $(WORK_DIR)
-#   value: $(System.DefaultWorkingDirectory)/environments/dev
+- name: WORK_DIR
+  value: $(System.DefaultWorkingDirectory)/environments
 
 - name: SVC_CONN
   value: todo-service-connection
 
 
 
-# parameters:
-#   - name: environments
-#     type: string
-#     default: dev
-#     values:
-#       - dev
-#       - test
-#       - prod
-
+parameters:
+  - name: environments
+    type: string
+    default: dev
+    values:
+      - dev
+      - test
+      - prod
+# ${{parameters.environments}}
+# '$(WORK_DIR)/${{parameters.environments}}'
 
 stages:
   - stage: SCANNING_TOOLS
@@ -88,7 +89,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             backendServiceArm: '$(SVC_CONN)'
             backendAzureRmStorageAccountName: 'todostorage110'
             backendAzureRmContainerName: 'todocontainer'
@@ -113,7 +114,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             backendServiceArm: '$(SVC_CONN)'
             backendAzureRmStorageAccountName: 'todostorage110'
             backendAzureRmContainerName: 'todocontainer'
@@ -124,7 +125,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             environmentServiceNameAzureRM: '$(SVC_CONN)'
 
   - stage: MANUAL_VALIDATION
