@@ -39,6 +39,13 @@ steps:
     testResultsFiles: 'tfsecresult.xml'
 
 - task: CmdLine@2
+  displayName: TERRASCAN TOOL
   inputs:
     script: 'terrascan scan -o junit-xml > terraresult.xml'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+- task: PublishTestResults@2
+  displayName: TERRA RESULT
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'terraresult.xml'
