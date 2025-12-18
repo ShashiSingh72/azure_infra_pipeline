@@ -27,6 +27,7 @@ steps:
     testResultsFiles: 'checkovresult.xml'
 
 - task: CmdLine@2
+  displayName: TFSEC
   inputs:
     script: |
       tfsec $(System.DefaultWorkingDirectory) -f junit -O tfsecresult.xml
@@ -36,3 +37,8 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'tfsecresult.xml'
+
+- task: CmdLine@2
+  inputs:
+    script: 'terrascan scan -o junit-xml > terraresult.xml'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
