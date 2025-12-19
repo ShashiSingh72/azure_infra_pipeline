@@ -1,0 +1,13 @@
+trigger: none
+
+pool: my agent pool
+
+steps:
+- task: CmdLine@2
+  inputs:
+    script: 'tflint --chdir=$(System.DefaultWorkingDirectory) --recursive --format junit > tflint-report.xml'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'tflint-report.xml'
