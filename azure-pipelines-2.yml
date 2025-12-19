@@ -24,6 +24,7 @@ steps:
           inputs:
             provider: 'azurerm'
             command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             backendAzureRmUseEntraIdForAuthentication: false
             backendServiceArm: 'todo-service-connection'
             backendAzureRmStorageAccountName: 'todostorage110'
