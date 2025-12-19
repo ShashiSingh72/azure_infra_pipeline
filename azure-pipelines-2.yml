@@ -13,3 +13,8 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'tflint-report.xml'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'infracost breakdown --path $(System.DefaultWorkingDirectory)/environments/dev'
