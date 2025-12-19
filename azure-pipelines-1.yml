@@ -128,6 +128,12 @@ stages:
             workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
             environmentServiceNameAzureRM: '$(SVC_CONN)'
 
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'infracost breakdown --path  $(WORK_DIR)/${{parameters.environments}}'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
+
   - stage: MANUAL_VALIDATION
     jobs:
       - job: MANUAL_VALIDATION
