@@ -14,8 +14,29 @@ steps:
 #     testResultsFormat: 'JUnit'
 #     testResultsFiles: 'tflint-report.xml'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'infracost breakdown --path $(System.DefaultWorkingDirectory)/environments/dev'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+        - task: TerraformInstaller@1
+          displayName: TERRAFORM_INSTALL
+          inputs:
+            terraformVersion: 'latest'
+
+        - task: TerraformTask@5
+          displayName: TERRAFORM_INIT
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendAzureRmUseEntraIdForAuthentication: false
+            backendServiceArm: 'todo-service-connection'
+            backendAzureRmStorageAccountName: 'todostorage110'
+            backendAzureRmContainerName: 'todocontainer'
+            backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            environmentServiceNameAzureRM: 'todo-service-connection'
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'infracost breakdown --path $(System.DefaultWorkingDirectory)/'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/'
