@@ -18,3 +18,4 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'infracost breakdown --path $(System.DefaultWorkingDirectory)/environments/dev'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
