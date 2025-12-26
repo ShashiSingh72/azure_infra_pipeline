@@ -146,3 +146,31 @@ stages:
             notifyUsers: 'shashisingh223344@gmail.com'
             approvers: 'shashisingh223344@gmail.com'
             instructions: 'check and approve'
+
+  - stage: TERRAFORM_APPLY
+    jobs:
+      - job: TERRAFORM_APPLY
+        displayName: TERRAFORM_APPLY
+        steps: 
+        - task: TerraformInstaller@1
+          displayName: TERRAFORM_INSTALL
+          inputs:
+            terraformVersion: 'latest'
+
+        - task: TerraformTask@5
+          displayName: TERRAFORM_INIT
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
+            backendServiceArm: '$(SVC_CONN)'
+            backendAzureRmStorageAccountName: 'todostorage110'
+            backendAzureRmContainerName: 'todocontainer'
+            backendAzureRmKey: 'terraform.tfstate'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(WORK_DIR)/${{parameters.environments}}'
+            environmentServiceNameAzureRM: 'todo-service-connection'
