@@ -4,9 +4,10 @@ on:                 #Trigger
   workflow_dispatch:    # Matlab Manual trigger hota hai
 
 jobs:                   # Jobs kya chalana hai
-  myfirstjob:            
+  myfirstjob:    
     name: Myfirstjob       # ye job name hota hai
     runs-on: windows-latest   # ye agent pool hota hai yaha microsoft hosted agent hai
+    continue-on-error: true
     
     steps:
       - name: myfirst_step     # steps name hota hai
@@ -15,7 +16,7 @@ jobs:                   # Jobs kya chalana hai
   mysecondjob:            
     name: Mysecondjob       # ye job name hota hai
     needs: myfirstjob
-    if: always()
+    #if: always()
     runs-on: ubuntu-slim   # ye agent pool hota hai yaha microsoft hosted agent hai
     
     steps:
