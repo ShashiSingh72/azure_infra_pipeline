@@ -15,6 +15,7 @@ jobs:                   # Jobs kya chalana hai
   mysecondjob:            
     name: Mysecondjob       # ye job name hota hai
     needs: myfirstjob
+    if: always()
     runs-on: ubuntu-slim   # ye agent pool hota hai yaha microsoft hosted agent hai
     
     steps:
