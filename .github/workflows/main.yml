@@ -1,0 +1,14 @@
+name: newpipeline  #pipeline name hota hai
+
+on:                 #Trigger
+  workflow_dispatch:    # Matlab Manual trigger hota hai
+
+jobs:                   # Jobs kya chalana hai
+  myfirstjob:            
+    name: init_job        # ye job name hota hai
+    runs-on: ubuntu-slim   # ye agent pool hota hai yaha microsoft hosted agent hai
+    
+    steps:
+      - name: myfirst_step     # steps name hota hai
+        run: echo " Hello world"    # kya chalana chahte hai
+      
