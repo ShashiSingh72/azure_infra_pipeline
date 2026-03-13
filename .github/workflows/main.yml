@@ -10,5 +10,5 @@ jobs:                   # Jobs kya chalana hai
     
     steps:
       - name: myfirst_step     # steps name hota hai
-        run: write_host " Hello world"    # kya chalana chahte hai
+        run: write-host " Hello world"    # kya chalana chahte hai
       
